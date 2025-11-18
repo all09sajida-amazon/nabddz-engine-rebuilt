@@ -19,4 +19,4 @@ jobs:
       
       # Step 2: Run the build script
       - name: Run build script
-        run: node build.js
+run: node scripts/build.js
