@@ -8,14 +8,12 @@ class Security {
   
   static encrypt(data) {
     try {
-      return btoa(unescape(encodeURIComponent(JSON.stringify(data))));
-    } catch { return null; }
+return btoa(unescape(encodeURIComponent(JSON.stringify(data)));    } catch { return null; }
   }
   
   static decrypt(encrypted) {
     try {
-      return JSON.parse(decodeURIComponent(escape(atob(encrypted))));
-    } catch { return null; }
+return JSON.parse(decodeURIComponent(escape(atob(encrypted)));    } catch { return null; }
   }
   
   static storage = {
