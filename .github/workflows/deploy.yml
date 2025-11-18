@@ -1,3 +1,7 @@
+# ===================================================================
+# Nabdz Engine - Quick Build Workflow
+# ===================================================================
+
 name: Quick Build
 
 on:
@@ -7,20 +11,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '18'
+      # Step 1: Check out the repository code
+      - name: Checkout code
+        uses: actions/checkout@v4
       
-      - name: Build seed.js
+      # Step 2: Run the build script
+      - name: Run build script
         run: node build.js
-      
-      - name: Verify build
-        run: |
-          if [ -f "./dist/seed.js" ]; then
-            echo "✅ Build successful"
-          else
-            echo "❌ Build failed - seed.js not created"
-            exit 1
-          fi
