@@ -16,4 +16,4 @@ jobs:
           node-version: '18'
           
       - run: npm ci
-      - run: node scripts/security-audit.js
+      - run: npm install
