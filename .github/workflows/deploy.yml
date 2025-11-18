@@ -19,7 +19,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       
-      # Step 2: Set up Node.js environment
+      # Step 2: Set up the Node.js environment
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -33,8 +33,8 @@ jobs:
       - name: Run Security Audit
         run: node scripts/security-audit.js
       
-      # Step 5: Verify that the audit passed and we are ready for the next step
+      # Step 5: Verify that the audit passed and we are ready for the next phase
       - name: Verify Readiness
         run: |
-          echo "✅ Security audit passed successfully."
+          echo "✅ Security audit passed successfully"
           echo "✅ Project is ready for the 'Mood Detector' module development."
