@@ -1,3 +1,9 @@
+# ===================================================================
+# Nabdz Engine - Continuous Integration (CI) Workflow
+# ===================================================================
+# This workflow runs on every push to the 'main' branch.
+# It installs dependencies, runs a security audit, and verifies the build.
+
 name: Nabdz Engine Deploy
 
 on:
@@ -9,11 +15,26 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - uses: actions/checkout@v4
+      # Step 1: Check out the repository code
+      - name: Checkout repository
+        uses: actions/checkout@v4
       
-      - uses: actions/setup-node@v3
+      # Step 2: Set up Node.js environment
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
           node-version: '18'
           
-      - run: npm ci
-      - run: npm install
+      # Step 3: Install project dependencies
+      - name: Install dependencies
+        run: npm install
+      
+      # Step 4: Run the security audit script
+      - name: Run Security Audit
+        run: node scripts/security-audit.js
+      
+      # Step 5: Verify that the audit passed and we are ready for the next step
+      - name: Verify Readiness
+        run: |
+          echo "✅ Security audit passed successfully."
+          echo "✅ Project is ready for the 'Mood Detector' module development."
