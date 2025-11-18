@@ -1,0 +1,34 @@
+{
+  "name": "nabddz-engine-rebuilt",
+  "version": "2.2.0",
+  "description": "The intelligent blogging engine developed by the 'Golden Triad' AI team.",
+  "main": "dist/seed.js",
+  "scripts": {
+    "build": "echo 'Building Nabd Dz Engine...'",
+    "dev": "echo 'Starting development server...'",
+    "test": "echo 'Running tests...'",
+    "lint": "echo 'Linting code...'"
+  },
+  "keywords": [
+    "blogger",
+    "template",
+    "ai",
+    "mood-detection",
+    "gamification",
+    "javascript",
+    "nabd-dz"
+  ],
+  "author": "The Golden Triad",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/all09sajida-amazon/nabddz-engine-rebuilt.git"
+  },
+  "bugs": {
+    "url": "https://github.com/all09sajida-amazon/nabddz-engine-rebuilt/issues"
+  },
+  "homepage": "https://github.com/all09sajida-amazon/nabddz-engine-rebuilt#readme",
+  "devDependencies": {
+    "eslint": "^8.0.0"
+  }
+}
