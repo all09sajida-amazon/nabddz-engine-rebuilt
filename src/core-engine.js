@@ -27,8 +27,8 @@ class Security {
    */
   static encrypt(data) {
     try {
-      return btoa(unescape(encodeURIComponent(JSON.stringify(data)));
-    } catch { return null; }
+      return btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+    } catch (error) { return null; } // <-- تم التصحيح هنا
   }
 
   /**
@@ -38,8 +38,8 @@ class Security {
    */
   static decrypt(encrypted) {
     try {
-      return JSON.parse(decodeURIComponent(escape(atob(encrypted)));
-    } catch { return null; }
+      return JSON.parse(decodeURIComponent(escape(atob(encrypted))));
+    } catch (error) { return null; } // <-- وتم التصحيح هنا أيضاً
   }
 
   /**
