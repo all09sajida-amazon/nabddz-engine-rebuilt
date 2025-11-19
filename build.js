@@ -4,7 +4,7 @@
  * ===================================================================
  * Golden Rule: This is the ONLY way to create dist/seed.js
  * Never edit dist/seed.js manually. Always run: node scripts/build.js
- */
+ */0
 
 const fs = require('fs');
 const path = require('path');
