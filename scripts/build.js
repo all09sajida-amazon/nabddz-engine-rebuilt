@@ -42,13 +42,11 @@ ${modules.game}
 (function() {
   if (typeof window !== 'undefined') {
     document.addEventListener('DOMContentLoaded', function() {
-      window.Nabddz && window.Nabddz.init();
-      window.Nabddz && window.Nabddz.Gamification && window.Nabddz.Gamification.init();
+      window.NabdzCore && window.NabdzCore.init();
+      window.NabdzCore && window.NabdzCore.Gamification && window.NabdzCore.Gamification.init();
     });
   }
 })();
-`;
-
 // كتابة الملف
 fs.writeFileSync(SEED_FILE, seedContent);
 const stats = fs.statSync(SEED_FILE);
