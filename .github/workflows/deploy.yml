@@ -1,11 +1,13 @@
 # ===================================================================
-# Nabdz Engine - Quick Build Workflow
+# Nabdz Engine - Build and Test Workflow
 # ===================================================================
 
-name: Quick Build
+name: Build and Test
 
 on:
   push:
+    branches: [main]
+  pull_request:
     branches: [main]
 
 jobs:
@@ -17,6 +19,23 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       
-      # Step 2: Run the build script
-      - name: Run build script
-run: node scripts/build.js
+      # Step 2: Set up Node.js environment
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          
+      # Step 3: Run the build script
+      - name: Build project
+        run: node scripts/build.js
+      
+      # Step 4: Verify that the build was successful
+      - name: Verify build output
+        run: |
+          if [ ! -f "dist/seed.js" ]; then
+            echo "❌ FAILURE: dist/seed.js was not created."
+            exit 1
+          fi
+          echo "✅ SUCCESS: dist/seed.js found."
+          node -c dist/seed.js
+          echo "✅ SUCCESS: dist/seed.js has valid syntax."
