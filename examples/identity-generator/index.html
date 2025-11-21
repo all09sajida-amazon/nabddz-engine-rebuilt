@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مولّد الهوية الجزائرية - نبض الجزائر</title>
+  
+  <!-- خطوط Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- أنماط CSS -->
+  <style>
+    :root {
+      --primary-color: #F7B801;
+      --secondary-color: #F8F4E3;
+      --background-color: #FEF9E7;
+      --text-color: #7E5109;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background: linear-gradient(135deg, #FEF9E7 0%, #F8F4E3 100%);
+      color: var(--text-color);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .logo {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: var(--primary-color);
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .tagline {
+      font-size: 1.2rem;
+      color: var(--text-color);
+      opacity: 0.8;
+    }
+    
+    .demo-section {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      margin-bottom: 40px;
+    }
+    
+    .section-title {
+      font-size: 1.8rem;
+      color: var(--primary-color);
+      margin-bottom: 20px;
+      text-align: center;
+      font-weight: bold;
+    }
+    
+    .section-description {
+      text-align: center;
+      margin-bottom: 30px;
+      color: var(--text-color);
+      opacity: 0.8;
+    }
+    
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+      color: var(--text-color);
+      opacity: 0.8;
+    }
+    
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+    
+    .feature-card {
+      background: var(--background-color);
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .feature-icon {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+    
+    .feature-title {
+      font-weight: bold;
+      color: var(--primary-color);
+      margin-bottom: 5px;
+    }
+    
+    .feature-description {
+      font-size: 0.9rem;
+      color: var(--text-color);
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">نبض الجزائر</div>
+      <div class="tagline">محرك ذكي يحلل مزاج المستخدم ويغير الواجهة ديناميكياً</div>
+    </header>
+    
+    <main>
+      <div class="demo-section">
+        <h2 class="section-title">مولّد الهوية الجزائرية</h2>
+        <p class="section-description">أنشئ هويتك الرقمية الفريدة في نبض الجزائر</p>
+        
+        <div id="identity-generator-container"></div>
+      </div>
+      
+      <div class="demo-section">
+        <h2 class="section-title">الميزات الرئيسية</h2>
+        
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">🎨</div>
+            <div class="feature-title">صور رمزية فريدة</div>
+            <div class="feature-description">توليد صور رمزية عشوائية بأسلوب جزائري</div>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">💾</div>
+            <div class="feature-title">حفظ تلقائي</div>
+            <div class="feature-description">حفظ الهوية في المتصفح و GitHub Gists</div>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">📱</div>
+            <div class="feature-title">تصميم متجاوب</div>
+            <div class="feature-description">يعمل بشكل مثالي على جميع الأجهزة</div>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">🔗</div>
+            <div class="feature-title">مشاركة سهلة</div>
+            <div class="feature-description">مشاركة هويتك مع الأصدقاء بسهولة</div>
+          </div>
+        </div>
+      </div>
+    </main>
+    
+    <footer>
+      <p>نبض الجزائر &copy; 2023 - جميع الحقوق محفوظة</p>
+    </footer>
+  </div>
+  
+  <!-- استيراد المكون -->
+  <script type="module">
+    import { IdentityGenerator } from '../../src/components/IdentityGenerator.js';
+    
+    // تهيئة المكون
+    document.addEventListener('DOMContentLoaded', () => {
+      const generator = new IdentityGenerator('identity-generator-container');
+      
+      // الاستماع لحدث حفظ الهوية
+      window.addEventListener('identitySaved', (event) => {
+        console.log('Identity saved:', event.detail);
+      });
+    });
+  </script>
+</body>
+</html>
