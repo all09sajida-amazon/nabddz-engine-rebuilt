@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>عرض متكامل - نبض الجزائر</title>
+  
+  <!-- خطوط Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- مكتبة Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  
+  <!-- مكتبة jsPDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  
+  <!-- أنماط CSS -->
+  <style>
+    :root {
+      --primary-color: #F7B801;
+      --secondary-color: #F8F4E3;
+      --background-color: #FEF9E7;
+      --text-color: #7E5109;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background: linear-gradient(135deg, #FEF9E7 0%, #F8F4E3 100%);
+      color: var(--text-color);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .logo {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: var(--primary-color);
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .tagline {
+      font-size: 1.2rem;
+      color: var(--text-color);
+      opacity: 0.8;
+    }
+    
+    .tabs {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    
+    .tab {
+      padding: 10px 20px;
+      background: white;
+      color: var(--text-color);
+      border: 2px solid var(--text-color);
+      border-radius: 25px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Tajawal', sans-serif;
+    }
+    
+    .tab.active {
+      background: var(--primary-color);
+      color: white;
+      border-color: var(--primary-color);
+    }
+    
+    .tab-content {
+      display: none;
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      margin-bottom: 40px;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    .section-title {
+      font-size: 1.8rem;
+      color: var(--primary-color);
+      margin-bottom: 20px;
+      text-align: center;
+      font-weight: bold;
+    }
+    
+    .section-description {
+      text-align: center;
+      margin-bottom: 30px;
+      color: var(--text-color);
+      opacity: 0.8;
+    }
+    
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+      color: var(--text-color);
+      opacity: 0.8;
+    }
+    
+    /* أنماط Identity Generator */
+    .identity-generator {
+      font-family: 'Tajawal', sans-serif;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background: linear-gradient(135deg, #FEF9E7 0%, #F8F4E3 100%);
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      direction: rtl;
+      text-align: right;
+    }
+    
+    .identity-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .identity-title {
+      font-size: 2rem;
+      color: #F7B801;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+    
+    .identity-subtitle {
+      font-size: 1rem;
+      color: #7E5109;
+      opacity: 0.8;
+    }
+    
+    .avatar-section {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .avatar-preview {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      margin: 0 auto 15px;
+      border: 4px solid #F7B801;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+    
+    .avatar-preview:hover {
+      transform: scale(1.05);
+    }
+    
+    .avatar-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .generate-avatar-btn {
+      background: linear-gradient(135deg, #F7B801, #F8F4E3);
+      color: #7E5109;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Tajawal', sans-serif;
+    }
+    
+    .generate-avatar-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(247, 184, 1, 0.3);
+    }
+    
+    .form-section {
+      margin-bottom: 25px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-label {
+      display: block;
+      font-weight: bold;
+      color: #7E5109;
+      margin-bottom: 8px;
+      font-size: 1.1rem;
+    }
+    
+    .form-input, .form-textarea {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #F8F4E3;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-family: 'Tajawal', sans-serif;
+      transition: border-color 0.3s ease;
+      box-sizing: border-box;
+    }
+    
+    .form-input:focus, .form-textarea:focus {
+      outline: none;
+      border-color: #F7B801;
+    }
+    
+    .form-textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+    
+    .interests-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    
+    .interest-tag {
+      padding: 8px 15px;
+      background: #F8F4E3;
+      color: #7E5109;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+      border: 2px solid transparent;
+    }
+    
+    .interest-tag:hover {
+      background: #F7B801;
+      color: white;
+    }
+    
+    .interest-tag.selected {
+      background: #F7B801;
+      color: white;
+      border-color: #7E5109;
+    }
+    
+    .form-select {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #F8F4E3;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-family: 'Tajawal', sans-serif;
+      background: white;
+      cursor: pointer;
+    }
+    
+    .form-actions {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin-top: 30px;
+    }
+    
+    .btn {
+      padding: 12px 25px;
+      border: none;
+      border-radius: 25px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Tajawal', sans-serif;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #F7B801, #F8F4E3);
+      color: #7E5109;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(247, 184, 1, 0.3);
+    }
+    
+    .btn-secondary {
+      background: transparent;
+      color: #7E5109;
+      border: 2px solid #7E5109;
+    }
+    
+    .btn-secondary:hover {
+      background: #7E5109;
+      color: white;
+    }
+    
+    .identity-preview {
+      margin-top: 30px;
+      padding: 20px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .preview-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+    
+    .preview-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+    
+    .preview-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .preview-info h3 {
+      margin: 0;
+      color: #7E5109;
+    }
+    
+    .preview-info p {
+      margin: 5px 0 0;
+      color: #7E5109;
+      opacity: 0.7;
+    }
+    
+    .preview-bio {
+      margin-bottom: 15px;
+      color: #7E5109;
+      line-height: 1.6;
+    }
+    
+    .preview-interests {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    
+    .preview-interest {
+      padding: 5px 12px;
+      background: #F8F4E3;
+      color: #7E5109;
+      border-radius: 15px;
+      font-size: 0.8rem;
+    }
+    
+    /* أنماط Mood Archive */
+    .mood-archive {
+      font-family: 'Tajawal', sans-serif;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+      background: linear-gradient(135deg, #FEF9E7 0%, #F8F4E3 100%);
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      direction: rtl;
+      text-align: right;
+    }
+    
+    .archive-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .archive-title {
+      font-size: 2rem;
+      color: #F7B801;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+    
+    .archive-subtitle {
+      font-size: 1rem;
+      color: #7E5109;
+      opacity: 0.8;
+    }
+    
+    .chart-container {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      margin-bottom: 30px;
+      position: relative;
+      height: 400px;
+    }
+    
+    .controls-section {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    
+    .stat-card {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    .stat-value {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #F7B801;
+      margin-bottom: 5px;
+    }
+    
+    .stat-label {
+      font-size: 1rem;
+      color: #7E5109;
+      opacity: 0.8;
+    }
+    
+    .mood-table {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    .table-header {
+      background: linear-gradient(135deg, #F7B801, #F8F4E3);
+      color: #7E5109;
+      padding: 15px;
+      font-weight: bold;
+      text-align: center;
+    }
+    
+    .table-content {
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    
+    .table-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      padding: 12px 15px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      text-align: center;
+    }
+    
+    .table-row:last-child {
+      border-bottom: none;
+    }
+    
+    .mood-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      color: white;
+    }
+    
+    .mood-very-negative { background-color: #4A235A; }
+    .mood-negative { background-color: #5D6D7E; }
+    .mood-neutral { background-color: #F7B801; color: #7E5109; }
+    .mood-positive { background-color: #00A5CF; }
+    .mood-very-positive { background-color: #FF6B6B; }
+    
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #00D084;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 10px;
+      font-weight: bold;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 1000;
+    }
+    
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+    
+    @media (max-width: 768px) {
+      .identity-generator, .mood-archive {
+        padding: 15px;
+      }
+      
+      .identity-title, .archive-title {
+        font-size: 1.5rem;
+      }
+      
+      .form-actions, .controls-section {
+        flex-direction: column;
+      }
+      
+      .btn {
+        width: 100%;
+      }
+      
+      .table-row {
+        grid-template-columns: 1fr;
+        gap: 5px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">نبض الجزائر</div>
+      <div class="tagline">محرك ذكي يحلل مزاج المستخدم ويغير الواجهة ديناميكياً</div>
+    </header>
+    
+    <main>
+      <div class="tabs">
+        <div class="tab active" data-tab="identity">مولّد الهوية</div>
+        <div class="tab" data-tab="archive">أرشيف المشاعر</div>
+      </div>
+      
+      <div class="tab-content active" id="identity">
+        <h2 class="section-title">مولّد الهوية الجزائرية</h2>
+        <p class="section-description">أنشئ هويتك الرقمية الفريدة في نبض الجزائر</p>
+        
+        <div id="identity-generator-container"></div>
+      </div>
+      
+      <div class="tab-content" id="archive">
+        <h2 class="section-title">أرشيف نبض المشاعر</h2>
+        <p class="section-description">تتبع وتحليل مزاجك على مر الزمن</p>
+        
+        <div id="mood-archive-container"></div>
+      </div>
+    </main>
+    
+    <footer>
+      <p>نبض الجزائر &copy; 2023 - جميع الحقوق محفوظة</p>
+    </footer>
+  </div>
+  
+  <script>
+    // Identity Generator Component
+    class IdentityGenerator {
+      constructor(containerId) {
+        this.container = document.getElementById(containerId);
+        if (!this.container) {
+          console.error(`Container with id "${containerId}" not found`);
+          return;
+        }
+        
+        this.identity = {
+          name: '',
+          avatar: '',
+          bio: '',
+          interests: [],
+          personalityTraits: []
+        };
+        
+        this.init();
+      }
+      
+      init() {
+        this.render();
+        this.attachEventListeners();
+        this.generateAvatar();
+      }
+      
+      render() {
+        this.container.innerHTML = `
+          <div class="identity-generator">
+            <div class="identity-header">
+              <h1 class="identity-title">مولّد الهوية الجزائرية</h1>
+              <p class="identity-subtitle">أنشئ هويتك الرقمية الفريدة في نبض الجزائر</p>
+            </div>
+            
+            <div class="avatar-section">
+              <div class="avatar-preview">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=algeria" alt="الصورة الرمزية">
+              </div>
+              <button class="generate-avatar-btn">توليد صورة رمزية جديدة</button>
+            </div>
+            
+            <div class="form-section">
+              <div class="form-group">
+                <label class="form-label">الاسم الكامل</label>
+                <input type="text" class="form-input" id="name-input" placeholder="أدخل اسمك الكامل">
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">نبذة شخصية</label>
+                <textarea class="form-textarea" id="bio-input" placeholder="أخبرنا عن نفسك في بضع كلمات..."></textarea>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">الاهتمامات</label>
+                <div class="interests-container">
+                  <div class="interest-tag" data-interest="technology">التكنولوجيا</div>
+                  <div class="interest-tag" data-interest="sports">الرياضة</div>
+                  <div class="interest-tag" data-interest="art">الفن</div>
+                  <div class="interest-tag" data-interest="music">الموسيقى</div>
+                  <div class="interest-tag" data-interest="travel">السفر</div>
+                  <div class="interest-tag" data-interest="food">الطعام</div>
+                  <div class="interest-tag" data-interest="reading">القراءة</div>
+                  <div class="interest-tag" data-interest="nature">الطبيعة</div>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">السمة الشخصية</label>
+                <select class="form-select" id="trait-select">
+                  <option value="">اختر سمة شخصية</option>
+                  <option value="creative">مبدع</option>
+                  <option value="analytical">تحليلي</option>
+                  <option value="adventurous">مغامر</option>
+                  <option value="social">اجتماعي</option>
+                  <option value="thoughtful">متأمل</option>
+                  <option value="energetic">نشيط</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="form-actions">
+              <button class="btn btn-secondary" id="clear-btn">مسح البيانات</button>
+              <button class="btn btn-primary" id="save-btn">حفظ الهوية</button>
+            </div>
+            
+            <div class="identity-preview" id="preview" style="display: none;">
+              <div class="preview-header">
+                <div class="preview-avatar">
+                  <img src="" alt="الصورة الرمزية">
+                </div>
+                <div class="preview-info">
+                  <h3></h3>
+                  <p></p>
+                </div>
+              </div>
+              <div class="preview-bio"></div>
+              <div class="preview-interests"></div>
+            </div>
+          </div>
+        `;
+        
+        // إنشاء عنصر Toast
+        this.toast = document.createElement('div');
+        this.toast.className = 'toast';
+        document.body.appendChild(this.toast);
+      }
+      
+      attachEventListeners() {
+        // زر توليد الصورة الرمزية
+        const generateBtn = this.container.querySelector('.generate-avatar-btn');
+        generateBtn.addEventListener('click', () => this.generateAvatar());
+        
+        // حقول الإدخال
+        const nameInput = this.container.querySelector('#name-input');
+        const bioInput = this.container.querySelector('#bio-input');
+        const traitSelect = this.container.querySelector('#trait-select');
+        
+        nameInput.addEventListener('input', (e) => {
+          this.identity.name = e.target.value;
+          this.updatePreview();
+        });
+        
+        bioInput.addEventListener('input', (e) => {
+          this.identity.bio = e.target.value;
+          this.updatePreview();
+        });
+        
+        traitSelect.addEventListener('change', (e) => {
+          this.identity.personalityTraits = e.target.value ? [e.target.value] : [];
+          this.updatePreview();
+        });
+        
+        // الاهتمامات
+        const interestTags = this.container.querySelectorAll('.interest-tag');
+        interestTags.forEach(tag => {
+          tag.addEventListener('click', () => {
+            const interest = tag.getAttribute('data-interest');
+            this.toggleInterest(interest, tag);
+          });
+        });
+        
+        // الأزرار
+        const clearBtn = this.container.querySelector('#clear-btn');
+        const saveBtn = this.container.querySelector('#save-btn');
+        
+        clearBtn.addEventListener('click', () => this.clearForm());
+        saveBtn.addEventListener('click', () => this.saveIdentity());
+      }
+      
+      generateAvatar() {
+        const seeds = ['algeria', 'oasis', 'sahara', 'casbah', 'kabyle', 'tuareg', 'oran', 'constantine'];
+        const randomSeed = seeds[Math.floor(Math.random() * seeds.length)];
+        const avatarUrl = `https://api.dicebear.com/7.x/avataaars/svg?seed=${randomSeed}`;
+        
+        const avatarPreview = this.container.querySelector('.avatar-preview img');
+        avatarPreview.src = avatarUrl;
+        
+        this.identity.avatar = avatarUrl;
+        this.updatePreview();
+        
+        this.showToast('تم توليد صورة رمزية جديدة!');
+      }
+      
+      toggleInterest(interest, element) {
+        const index = this.identity.interests.indexOf(interest);
+        
+        if (index === -1) {
+          this.identity.interests.push(interest);
+          element.classList.add('selected');
+        } else {
+          this.identity.interests.splice(index, 1);
+          element.classList.remove('selected');
+        }
+        
+        this.updatePreview();
+      }
+      
+      updatePreview() {
+        const preview = this.container.querySelector('#preview');
+        
+        if (!this.identity.name && !this.identity.bio) {
+          preview.style.display = 'none';
+          return;
+        }
+        
+        preview.style.display = 'block';
+        
+        // تحديث الصورة الرمزية
+        const previewAvatar = preview.querySelector('.preview-avatar img');
+        previewAvatar.src = this.identity.avatar || 'https://api.dicebear.com/7.x/avataaars/svg?seed=algeria';
+        
+        // تحديث المعلومات
+        const previewName = preview.querySelector('.preview-info h3');
+        const previewTrait = preview.querySelector('.preview-info p');
+        const previewBio = preview.querySelector('.preview-bio');
+        const previewInterests = preview.querySelector('.preview-interests');
+        
+        previewName.textContent = this.identity.name || 'اسم غير محدد';
+        
+        const traitLabels = {
+          'creative': 'مبدع',
+          'analytical': 'تحليلي',
+          'adventurous': 'مغامر',
+          'social': 'اجتماعي',
+          'thoughtful': 'متأمل',
+          'energetic': 'نشيط'
+        };
+        
+        previewTrait.textContent = this.identity.personalityTraits.length > 0 
+          ? traitLabels[this.identity.personalityTraits[0]] 
+          : 'شخصية فريدة';
+        
+        previewBio.textContent = this.identity.bio || 'لا توجد نبذة شخصية';
+        
+        // تحديث الاهتمامات
+        previewInterests.innerHTML = '';
+        this.identity.interests.forEach(interest => {
+          const interestElement = document.createElement('span');
+          interestElement.className = 'preview-interest';
+          interestElement.textContent = this.getInterestLabel(interest);
+          previewInterests.appendChild(interestElement);
+        });
+      }
+      
+      getInterestLabel(interest) {
+        const labels = {
+          'technology': 'التكنولوجيا',
+          'sports': 'الرياضة',
+          'art': 'الفن',
+          'music': 'الموسيقى',
+          'travel': 'السفر',
+          'food': 'الطعام',
+          'reading': 'القراءة',
+          'nature': 'الطبيعة'
+        };
+        
+        return labels[interest] || interest;
+      }
+      
+      clearForm() {
+        this.identity = {
+          name: '',
+          avatar: '',
+          bio: '',
+          interests: [],
+          personalityTraits: []
+        };
+        
+        // مسح الحقول
+        this.container.querySelector('#name-input').value = '';
+        this.container.querySelector('#bio-input').value = '';
+        this.container.querySelector('#trait-select').value = '';
+        
+        // إلغاء تحديد الاهتمامات
+        const interestTags = this.container.querySelectorAll('.interest-tag');
+        interestTags.forEach(tag => tag.classList.remove('selected'));
+        
+        // إعادة تعيين الصورة الرمزية
+        this.generateAvatar();
+        
+        // إخفاء المعاينة
+        this.container.querySelector('#preview').style.display = 'none';
+        
+        this.showToast('تم مسح جميع البيانات');
+      }
+      
+      saveIdentity() {
+        if (!this.identity.name) {
+          this.showToast('يرجى إدخال الاسم على الأقل');
+          return;
+        }
+        
+        // حفظ في localStorage
+        localStorage.setItem('nabd_identity', JSON.stringify(this.identity));
+        
+        this.showToast('تم حفظ الهوية بنجاح!');
+        
+        // إطلاق حدث الحفظ
+        window.dispatchEvent(new CustomEvent('identitySaved', { detail: this.identity }));
+      }
+      
+      showToast(message) {
+        this.toast.textContent = message;
+        this.toast.classList.add('show');
+        
+        setTimeout(() => {
+          this.toast.classList.remove('show');
+        }, 3000);
+      }
+    }
+    
+    // Mood Archive Component
+    class MoodArchive {
+      constructor(containerId) {
+        this.container = document.getElementById(containerId);
+        if (!this.container) {
+          console.error(`Container with id "${containerId}" not found`);
+          return;
+        }
+        
+        this.chart = null;
+        this.moodData = [];
+        
+        this.init();
+      }
+      
+      init() {
+        this.render();
+        this.loadMoodData();
+        this.initializeChart();
+        this.attachEventListeners();
+      }
+      
+      render() {
+        this.container.innerHTML = `
+          <div class="mood-archive">
+            <div class="archive-header">
+              <h1 class="archive-title">أرشيف نبض المشاعر</h1>
+              <p class="archive-subtitle">تتبع وتحليل مزاجك على مر الزمن</p>
+            </div>
+            
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-value" id="total-days">0</div>
+                <div class="stat-label">إجمالي الأيام</div>
+              </div>
+              
+              <div class="stat-card">
+                <div class="stat-value" id="avg-score">0</div>
+                <div class="stat-label">متوسط النقاط</div>
+              </div>
+              
+              <div class="stat-card">
+                <div class="stat-value" id="dominant-mood">-</div>
+                <div class="stat-label">المزاج السائد</div>
+              </div>
+            </div>
+            
+            <div class="chart-container">
+              <canvas id="moodChart"></canvas>
+            </div>
+            
+            <div class="controls-section">
+              <button class="btn btn-primary" id="refresh-btn">تحديث البيانات</button>
+              <button class="btn btn-secondary" id="export-json-btn">تصدير JSON</button>
+            </div>
+            
+            <div class="mood-table">
+              <div class="table-header">سجل المشاعر</div>
+              <div class="table-content" id="mood-table-body">
+                <!-- سيتم ملؤه ديناميكياً -->
+              </div>
+            </div>
+          </div>
+        `;
+        
+        // إنشاء عنصر Toast
+        this.toast = document.createElement('div');
+        this.toast.className = 'toast';
+        document.body.appendChild(this.toast);
+      }
+      
+      loadMoodData() {
+        // تحميل البيانات من localStorage
+        const savedData = localStorage.getItem('nabd_mood_history');
+        
+        if (savedData) {
+          this.moodData = JSON.parse(savedData);
+        } else {
+          // إذا لم تكن هناك بيانات، إنشاء بيانات وهمية للاختبار
+          this.generateMockData();
+        }
+        
+        this.updateStats();
+        this.updateTable();
+      }
+      
+      generateMockData() {
+        const today = new Date();
+        const moods = ['very_negative', 'negative', 'neutral', 'positive', 'very_positive'];
+        const moodLabels = {
+          'very_negative': 'حزين جداً',
+          'negative': 'حزين',
+          'neutral': 'محايد',
+          'positive': 'سعيد',
+          'very_positive': 'سعيد جداً'
+        };
+        
+        for (let i = 30; i >= 0; i--) {
+          const date = new Date(today);
+          date.setDate(date.getDate() - i);
+          
+          const mood = moods[Math.floor(Math.random() * moods.length)];
+          const score = Math.floor(Math.random() * 100);
+          
+          this.moodData.push({
+            date: date.toISOString().split('T')[0],
+            mood: mood,
+            moodLabel: moodLabels[mood],
+            score: score
+          });
+        }
+        
+        localStorage.setItem('nabd_mood_history', JSON.stringify(this.moodData));
+      }
+      
+      initializeChart() {
+        const ctx = document.getElementById('moodChart');
+        if (!ctx) return;
+        
+        // التحقق من وجود Chart.js
+        if (typeof Chart === 'undefined') {
+          this.showToast('مكتبة Chart.js غير محملة. يرجى التحقق من الـ HTML.');
+          return;
+        }
+        
+        this.chart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: this.moodData.map(entry => entry.date),
+            datasets: [{
+              label: 'نبض المزاج',
+              data: this.moodData.map(entry => entry.score),
+              borderColor: '#00D084',
+              backgroundColor: 'rgba(0, 208, 132, 0.1)',
+              tension: 0.4,
+              fill: true,
+              pointRadius: 5,
+              pointHoverRadius: 8,
+              pointBackgroundColor: '#00D084',
+              pointBorderColor: '#fff',
+              pointBorderWidth: 2
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: 'top',
+                labels: {
+                  font: {
+                    family: 'Tajawal',
+                    size: 14
+                  },
+                  color: '#7E5109'
+                }
+              },
+              tooltip: {
+                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                titleFont: {
+                  family: 'Tajawal',
+                  size: 14
+                },
+                bodyFont: {
+                  family: 'Tajawal',
+                  size: 12
+                },
+                callbacks: {
+                  label: (context) => {
+                    const index = context.dataIndex;
+                    const moodEntry = this.moodData[index];
+                    return `المزاج: ${moodEntry.moodLabel} (${context.parsed.y} نقطة)`;
+                  }
+                }
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                max: 100,
+                ticks: {
+                  font: {
+                    family: 'Tajawal'
+                  },
+                  color: '#7E5109'
+                },
+                grid: {
+                  color: 'rgba(0, 0, 0, 0.05)'
+                }
+              },
+              x: {
+                ticks: {
+                  font: {
+                    family: 'Tajawal'
+                  },
+                  color: '#7E5109',
+                  maxRotation: 45,
+                  minRotation: 45
+                },
+                grid: {
+                  color: 'rgba(0, 0, 0, 0.05)'
+                }
+              }
+            }
+          }
+        });
+      }
+      
+      updateStats() {
+        const totalDays = this.moodData.length;
+        const avgScore = Math.round(this.moodData.reduce((sum, entry) => sum + entry.score, 0) / totalDays);
+        
+        const moodCounts = {};
+        this.moodData.forEach(entry => {
+          moodCounts[entry.mood] = (moodCounts[entry.mood] || 0) + 1;
+        });
+        
+        const dominantMood = Object.keys(moodCounts).reduce((a, b) => 
+          moodCounts[a] > moodCounts[b] ? a : b
+        );
+        
+        const moodLabels = {
+          'very_negative': 'حزين',
+          'negative': 'حزين',
+          'neutral': 'محايد',
+          'positive': 'سعيد',
+          'very_positive': 'سعيد'
+        };
+        
+        document.getElementById('total-days').textContent = totalDays;
+        document.getElementById('avg-score').textContent = avgScore;
+        document.getElementById('dominant-mood').textContent = moodLabels[dominantMood] || '-';
+      }
+      
+      updateTable() {
+        const tableBody = document.getElementById('mood-table-body');
+        if (!tableBody) return;
+        
+        tableBody.innerHTML = '';
+        
+        // عرض آخر 10 سجلات فقط
+        const recentData = this.moodData.slice(-10).reverse();
+        
+        recentData.forEach(entry => {
+          const row = document.createElement('div');
+          row.className = 'table-row';
+          
+          row.innerHTML = `
+            <div>${entry.date}</div>
+            <div><span class="mood-badge mood-${entry.mood}">${entry.moodLabel}</span></div>
+            <div>${entry.score} نقطة</div>
+          `;
+          
+          tableBody.appendChild(row);
+        });
+      }
+      
+      attachEventListeners() {
+        const refreshBtn = document.getElementById('refresh-btn');
+        const exportJsonBtn = document.getElementById('export-json-btn');
+        
+        refreshBtn.addEventListener('click', () => this.refreshData());
+        exportJsonBtn.addEventListener('click', () => this.exportJSON());
+      }
+      
+      refreshData() {
+        this.moodData = [];
+        this.generateMockData();
+        
+        // تحديث الرسم البياني
+        if (this.chart) {
+          this.chart.data.labels = this.moodData.map(entry => entry.date);
+          this.chart.data.datasets[0].data = this.moodData.map(entry => entry.score);
+          this.chart.update();
+        }
+        
+        this.updateStats();
+        this.updateTable();
+        
+        this.showToast('تم تحديث البيانات بنجاح!');
+      }
+      
+      exportJSON() {
+        const dataStr = JSON.stringify(this.moodData, null, 2);
+        const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+        
+        const exportFileDefaultName = 'nabd-algeria-mood-archive.json';
+        
+        const linkElement = document.createElement('a');
+        linkElement.setAttribute('href', dataUri);
+        linkElement.setAttribute('download', exportFileDefaultName);
+        linkElement.click();
+        
+        this.showToast('تم تصدير JSON بنجاح!');
+      }
+      
+      showToast(message) {
+        this.toast.textContent = message;
+        this.toast.classList.add('show');
+        
+        setTimeout(() => {
+          this.toast.classList.remove('show');
+        }, 3000);
+      }
+    }
+    
+    // تهيئة التبويبات
+    document.addEventListener('DOMContentLoaded', () => {
+      const tabs = document.querySelectorAll('.tab');
+      const tabContents = document.querySelectorAll('.tab-content');
+      
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          const tabId = tab.getAttribute('data-tab');
+          
+          // إزالة الفئة النشطة من جميع التبويبات والمحتويات
+          tabs.forEach(t => t.classList.remove('active'));
+          tabContents.forEach(tc => tc.classList.remove('active'));
+          
+          // إضافة الفئة النشطة للتبويب المحدد ومحتواه
+          tab.classList.add('active');
+          document.getElementById(tabId).classList.add('active');
+        });
+      });
+      
+      // تهيئة المكونات
+      const identityGenerator = new IdentityGenerator('identity-generator-container');
+      const moodArchive = new MoodArchive('mood-archive-container');
+    });
+  </script>
+</body>
+</html>
