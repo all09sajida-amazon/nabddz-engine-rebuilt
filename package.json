@@ -1,16 +1,13 @@
 {
-  "name": "nabddz-engine-rebuilt",
-  "version": "3.0.0-alpha",
-  "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
-  "scripts": {
-    "build": "node scripts/build.js",
-    "audit": "node scripts/security-audit.js"
-  },
-  "devDependencies": {
-    "@rollup/plugin-terser": "^0.4.4",
-    "rollup": "^4.9.6"
-  }
+  "name": "nabd-proxy-v7",
+  "version": "1.0.0",
+  "description": "Nabd AI Proxy - Cloudflare Worker",
+  "main": "worker.js",
+  "scripts": {
+    "build": "echo 'No build process needed for Worker'",
+    "deploy": "echo 'Direct deployment to Cloudflare'"
+  },
+  "keywords": ["cloudflare", "worker", "proxy", "ai"],
+  "author": "Nabd Team",
+  "license": "MIT"
 }
