@@ -1,13 +1,11 @@
 {
   "name": "nabd-proxy-v7",
   "version": "1.0.0",
-  "description": "Nabd AI Proxy - Cloudflare Worker",
-  "main": "worker.js",
+  "description": "Nabd AI Proxy - Cloudflare Pages Functions",
   "scripts": {
-    "build": "echo 'No build process needed for Worker'",
-    "deploy": "echo 'Direct deployment to Cloudflare'"
+    "build": "echo 'Build complete - Using Pages Functions' && exit 0"
   },
-  "keywords": ["cloudflare", "worker", "proxy", "ai"],
+  "keywords": ["cloudflare", "pages", "functions"],
   "author": "Nabd Team",
   "license": "MIT"
 }
