@@ -1,0 +1,5 @@
+{
+  "name": "nabd-proxy-functions",
+  "private": true,
+  "main": "_worker.js"
+}
