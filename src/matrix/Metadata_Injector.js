@@ -3,10 +3,9 @@
  * @description وحدة التشابك الهجين (EB) - تحقن البيانات الوصفية (SEO) ديناميكياً بناءً على الرنين.
  */
 
-// استيراد وحدات النواة (ES Modules لـ Deno)
+// استيراد باستخدام مسارات نسبية صحيحة
 import { findBestResonanceMatch } from './Resonance_Scorer.js';
 import { calculateInformationalFrequency } from './Frequency_Generator.js';
-
 // تعريف قاعدة بيانات المقالات
 const ContentDatabase = [
     { id: 'article-123', url: '/article-123.html', text: 'مقالة عن تأثير البترول في الجزائر...', basicFrequency: [0.8, 0.1, 0.3], vibrationIntensity: 5 },
