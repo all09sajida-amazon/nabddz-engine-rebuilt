@@ -1,0 +1,154 @@
+// matrix-core.js - المركز العصبي الموحد (النسخة 80% - حقن الكون)
+// تم تطبيق استراتيجية الإهمال الآمن لتجاوز مقاومة Git.
+
+(function() {
+    'use strict';
+
+    // ======== 1. المعاملات الكونية القابلة للتعديل ========
+    window.COSMIC_CONFIG = {
+        infoDensity: 0.75,
+        contextScore: 0.9,
+        coreFrequency: 3,
+        timeDecay: 0.98,
+        authorWeight: 1.15,
+        intentVector: {
+            informational: 0.6,
+            navigational: 0.2,
+            transactional: 0.1,
+            local: 0.9
+        }
+    };
+
+    // ======== 2. تحليل النواة الجغرافية ========
+    const geoPatterns = {
+        wilayas: /(الجزائر|وهران|قسنطينة|عنابة|سطيف|بليدة|ورقلة|بشار|تيارت|سيدي بلعباس)/gi,
+        landmarks: /(القصبة|قصرالدار|تاسيلي|الأخضر|الأطلسي|الصحراء)/gi,
+        cultural: /(الشاوية|القبائل|الراي|الشابي|الأوراسية|الجزائري)/gi
+    };
+
+    // ======== 3. الدوال المساعدة ========
+    function generateQuantumDescription(readings, freq) {
+        const base = readings.title.substring(0, 120);
+        return freq.localIntensity > 0.7 ? 
+            `${base} | تحليل محلي متقدم من ${readings.author}` : 
+            `${base} | تقرير شامل بتردد ${freq.rawFrequency}`;
+    }
+
+    function generateAtomicKeywords(freq) {
+        return `نبض الجزائر, ${freq.particles > 3 ? 'تحليل محلي متقدم' : 'أخبار عامة'}`.substring(0, 150);
+    }
+
+    function detectWilaya(text) {
+        const wilayas = ['الجزائر','وهران','قسنطينة','عنابة','سطيف'];
+        return wilayas.find(w => text.includes(w)) || 'الجزائر العاصمة';
+    }
+
+    // ======== 4. حساب التردد الكوني (calculateInformationalFrequency) ========
+    function calculateInformationalFrequency(content, metadata = {}) {
+        let atomicScore = 0;
+        let particleCount = 0;
+
+        // حساب كتلة الجغرافيا
+        Object.entries(geoPatterns).forEach(([type, regex]) => {
+            const matches = content.match(regex) || [];
+            if (matches.length > 0) {
+                const mass = metadata.localBoost ? 1.5 : 1;
+                atomicScore += matches.length * mass * window.COSMIC_CONFIG.contextScore;
+                particleCount += matches.length;
+            }
+        });
+
+        // معادلة تردد الكون
+        const frequency = Math.round(
+            (window.COSMIC_CONFIG.infoDensity * window.COSMIC_CONFIG.authorWeight * window.COSMIC_CONFIG.timeDecay) / Math.sqrt(particleCount || 1) * atomicScore
+        );
+
+        return {
+            rawFrequency: frequency,
+            quantumScore: Math.min(frequency * 1.618, 100),
+            localIntensity: window.COSMIC_CONFIG.intentVector.local,
+            particles: particleCount,
+            geoMass: atomicScore
+        };
+    }
+
+    // ======== 5. دالة الحقن الرئيسية (injectBloggerMetadata) ========
+    window.injectBloggerMetadata = function(config = {}) {
+        const cosmicReadings = {
+            url: window.location.href,
+            title: document.title,
+            content: document.querySelector('article, .post-body')?.innerText || '',
+            published: document.querySelector('[itemprop="datePublished"]')?.content || new Date().toISOString(),
+            author: document.querySelector('[itemprop="author"]')?.content || 'نبض الجزائر',
+            ...config
+        };
+
+        const freqData = calculateInformationalFrequency(
+            cosmicReadings.content, 
+            { localBoost: cosmicReadings.url.includes('.dz') }
+        );
+
+        // بناء حقول SEO المعلوماتية
+        const metaInjector = {
+            standard: [
+                { name: 'description', content: generateQuantumDescription(cosmicReadings, freqData) },
+                { name: 'keywords', content: generateAtomicKeywords(freqData) },
+                { property: 'og:locale', content: 'ar_DZ' },
+                { property: 'og:site_name', content: 'نبض الجزائر' }
+            ],
+            
+            // Structured Data JSON-LD (Schema.org)
+            schema: {
+                '@context': 'https://schema.org',
+                '@type': 'NewsArticle',
+                'headline': cosmicReadings.title,
+                'datePublished': cosmicReadings.published,
+                'author': { '@type': 'Person', 'name': cosmicReadings.author },
+                'publisher': { '@type': 'Organization', 'name': 'نبض الجزائر' },
+                'articleSection': detectWilaya(cosmicReadings.content),
+                'keywords': freqData.particles > 0 ? Object.keys(geoPatterns).filter(k => cosmicReadings.content.match(geoPatterns[k])).join(',') : 'الجزائر'
+            }
+        };
+
+        // حقن في DOM (طريقة الكمين السري)
+        function stealthInjection() {
+            const head = document.head;
+            
+            // 1. إزالة الوسوم القديمة
+            document.querySelectorAll('meta[data-cosmic], script[data-cosmic]').forEach(m => m.remove());
+            
+            // 2. حقن الوسوم الجديدة
+            metaInjector.standard.forEach(meta => {
+                const tag = document.createElement('meta');
+                Object.entries(meta).forEach(([key, val]) => tag.setAttribute(key, val));
+                tag.setAttribute('data-cosmic', 'injected');
+                head.appendChild(tag);
+            });
+            
+            // 3. حقن Schema.org
+            const script = document.createElement('script');
+            script.type = 'application/ld+json';
+            script.textContent = JSON.stringify(metaInjector.schema);
+            script.setAttribute('data-cosmic', 'injected');
+            head.appendChild(script);
+        }
+
+        // تنفيذ فوري مع التمويه
+        stealthInjection();
+        
+        return {
+            status: 'injected',
+            frequency: freqData,
+            timestamp: Date.now()
+        };
+    };
+
+    // **تفعيل تلقائي عند التحميل**
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => window.injectBloggerMetadata(), 1500);
+        });
+    } else {
+        setTimeout(() => window.injectBloggerMetadata(), 1500);
+    }
+})();
