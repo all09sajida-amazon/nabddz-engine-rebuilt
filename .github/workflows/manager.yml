@@ -1,0 +1,64 @@
+name: Nabdz Manager — Orchestrator
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Operation mode (ingest|audit|persist|full)'
+        required: true
+        default: 'full'
+      payload:
+        description: 'Optional base64 JSON payload (for direct dispatch)'
+        required: false
+  repository_dispatch:
+    types: [nabdz_collect]
+
+permissions:
+  contents: write
+  issues: write
+  actions: write
+
+jobs:
+  manage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main (for code & scripts)
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Prepare workspace
+        run: |
+          mkdir -p tmp
+          echo "Running Nabdz Manager"
+
+      - name: Save client payload (if provided)
+        if: ${{ github.event.inputs.payload != '' || github.event.client_payload != '' }}
+        run: |
+          if [ "${{ github.event.inputs.payload }}" != "" ]; then
+            echo "${{ github.event.inputs.payload }}" > tmp/payload.b64 || true
+          elif [ "${{ github.event.client_payload.data }}" != "" ]; then
+            echo "${{ toJson(github.event.client_payload.data) }}" > tmp/payload.json || true
+          fi
+
+      - name: Install dependencies (octokit)
+        run: npm ci || npm i @octokit/rest
+
+      - name: Run manager agent
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NABDZ_PRIVATE_KEY: ${{ secrets.NABDZ_PRIVATE_KEY }}
+          MODE: ${{ github.event.inputs.mode || 'full' }}
+        run: |
+          node ./scripts/manager.js
+
+      - name: Upload artifacts (manager logs)
+        uses: actions/upload-artifact@v4
+        with:
+          name: nabdz-manager-logs
+          path: tmp/manager-*.log || true

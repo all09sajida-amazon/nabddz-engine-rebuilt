@@ -1,0 +1,15 @@
+{
+  "version": "1.0",
+  "storageType": "GIT_BASED_LOGS",
+  "logsRetentionPolicy": {
+    "dataBranch": "data-store",
+    "maxDays": 90,
+    "minDays": 7,
+    "format": "JSON",
+    "encrypted": true
+  },
+  "metricsPolicy": {
+    "enabled": true,
+    "aggregationLevel": "DAILY"
+  }
+}
